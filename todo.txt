@@ -14,7 +14,7 @@ plotlib
 data validation
 pyTest - unitTests
 loggers (think js) - look at how to implement
-dataclass (layouts) // static vars
+dataclass (layouts) // static vars **************
 """ DOC string """
 
 formatting
@@ -22,3 +22,6 @@ set env var for logging level in logging (use os environment)
 	LOGGING_LEVEL="INFO" python main.py
 
 Helvitica 12 bold underline
+
+add questions to file and add them to layouts
+- add to .gitignore
