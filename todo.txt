@@ -1,0 +1,24 @@
+Finish questionnaire (notes)
+
+scores -> get main to export to CSV
+
+
+Next buttons -> switch tabs: https://github.com/PySimpleGUI/PySimpleGUI/issues/415
+'Master window'
+select output/read filepath
+
+Help buttons
+plotlib
+
+
+data validation
+pyTest - unitTests
+loggers (think js) - look at how to implement
+dataclass (layouts) // static vars
+""" DOC string """
+
+formatting
+set env var for logging level in logging (use os environment)
+	LOGGING_LEVEL="INFO" python main.py
+
+Helvitica 12 bold underline
