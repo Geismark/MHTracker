@@ -1,5 +1,3 @@
-Finish questionnaire (notes)
-
 scores -> get main to export to CSV
 
 'Master window'
@@ -15,6 +13,8 @@ loggers (think js) - look at how to implement
 dataclass (layouts) // static vars **************
 """ DOC string """
 
+https://www.w3schools.com/python/python_lists_comprehension.asp
+
 formatting
 set env var for logging level in logging (use os environment)
 	LOGGING_LEVEL="INFO" python main.py
@@ -29,3 +29,4 @@ default sliders and checkboxes to blank?
 
 
 ADD: implemented new data manipulation, static testing, auto-close on submit, logging, better imports, fixed function in time rather than manipulate module
+ADD: implemented hidden questions (still functional with blank questions), added seperate content package within lib, refactored getRadioText, outputMod to be worked on next
