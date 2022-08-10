@@ -1,24 +1,25 @@
 import logging, sys, os
 
-from lib.timeMod import *
-from lib.manipulateMod import *
-from lib.layoutsMod import *
+from lib.timeMod import getTime
+from lib.manipulateMod import getQuestionnaireOutput, dataToScore
+from lib.layoutsMod import getLayouts
 
 import csv, time
 import PySimpleGUI as sg
 from pathlib import Path
 
 # =======================================
-logging.basicConfig(level = logging.INFO, format = '[%(levelname)s]: %(message)s')
+logging.basicConfig(level = logging.DEBUG, format = '[%(levelname)s]: %(message)s')
 sys.dont_write_bytecode = True
 version = 0.1
+testing = False
 # =======================================
 
-def printScores(type = 1, dataFile = "base.csv"):
+def printScores(type=1, dataFile="base.csv"):
 	directory = Path(__file__).parent.resolve()
 	fileDirectory = str(directory) + "\\" + dataFile
 	if not Path(fileDirectory).is_file():
-		print("ERROR: File not found [printScores]")
+		logging.error("File not found [printScores]")
 		return
 	with open(fileDirectory) as csv_file:
 		csv_reader = csv.reader(csv_file, delimiter=',')
@@ -46,9 +47,9 @@ def printScores(type = 1, dataFile = "base.csv"):
 
 def makeQuestionWindow(theme="DarkGrey3", radioType="q"):
 	fo = "Helvitica 12 bold underline"
-	# sg.theme(theme)
+	sg.theme(theme)
 
-	info_layout, PHQ9_layout, GAD7_layout, Phobia_layout, WSAS_layout, notes_layout = getLayouts(fo, radioType)
+	info_layout, PHQ9_layout, GAD7_layout, Phobia_layout, WSAS_layout, notes_layout = getLayouts(fo=fo, radioType=radioType, testing=testing)
 
 	layout = []
 	layout += [
@@ -68,7 +69,7 @@ def makeQuestionWindow(theme="DarkGrey3", radioType="q"):
 
 	# layout[-1].append(sg.Sizegrip())
 	window = sg.Window('My Progress', layout, font=("Helvitica"), resizable=True, margins=(0,0), use_custom_titlebar=True, finalize=True, keep_on_top=True)
-	window.set_min_size(window.size)
+	# window.set_min_size(window.size)
 	return window
 
 def main():
@@ -77,14 +78,12 @@ def main():
 	while True:
 		event, values = window.read(timeout=100)
 		if event in (None, 'Exit'):
-			print("[LOG] Clicked Exit!")
+			logging.info(f"Window EXIT")
 			break
 		elif event == "-SUBMIT-":
-			# print(values)
-			# for val in values:
-			# print(f"{val} =====> {values.get(val)}")
 			scores = getQuestionnaireOutput(values)
-			# print(f"{scores = }")
+			logging.INFO(f"{scores = }")
+			window.write_event_value("Exit", "") # trigger window close
 		elif event in ["-NEXT1-", "-NEXT2-", "-NEXT3-", "-NEXT4-", "-NEXT5-"]:
 			window["-TABGROUP-"].Widget.select(int(event[-2]))
 	window.close()

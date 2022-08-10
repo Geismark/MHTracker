@@ -2,8 +2,6 @@ Finish questionnaire (notes)
 
 scores -> get main to export to CSV
 
-
-Next buttons -> switch tabs: https://github.com/PySimpleGUI/PySimpleGUI/issues/415
 'Master window'
 select output/read filepath
 
@@ -25,3 +23,9 @@ Helvitica 12 bold underline
 
 add questions to file and add them to layouts
 - add to .gitignore
+
+default sliders and checkboxes to blank?
+- BUT no way to determine if neglected or left at default? Need different input style? ---Or all default 0? [NO]---
+
+
+ADD: implemented new data manipulation, static testing, auto-close on submit, logging, better imports, fixed function in time rather than manipulate module
