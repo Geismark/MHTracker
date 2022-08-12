@@ -1,34 +1,31 @@
-import logging, sys, os
-
-from lib.timeMod import getTime
-from lib.manipulateMod import getQuestionnaireOutput
-from lib.layoutsMod import getLayouts
-
+import logging
+from lib.layoutsMod import getMainLayouts
+from questionnaire import questionnaireWindow
 import PySimpleGUI as sg
 
 # =======================================
-logging.basicConfig(level = logging.DEBUG, format = '[%(levelname)s]: %(message)s') # can add time if desired
-sys.dont_write_bytecode = True
+logging.basicConfig(
+					level = logging.DEBUG,
+					datefmt = '%Y-%m-%d %H:%M:%S',
+					format = '[%(levelname)s] [%(asctime)s] - [%(funcName)s]: %(message)s'
+					)
 version = 0.1
-testing = False
+# https://stackoverflow.com/questions/3220284/how-to-customize-the-time-format-for-python-logging
 # =======================================
 
-def makeQuestionWindow(theme="DarkGrey3", radioType="q"):
-	fo = "Helvitica 12 bold underline"
+# TODO configure default fonts, themes, etc.
+def makeHomeWindow(theme="DarkGrey3"):
+	# TODO fonts
 	sg.theme(theme)
 
-	info_layout, PHQ9_layout, GAD7_layout, Phobia_layout, WSAS_layout, notes_layout = getLayouts(fo=fo, radioType=radioType, testing=testing)
+	home_layout, graphs_layout = getMainLayouts()
 
 	layout = []
 	layout += [
 		[
 			sg.TabGroup([[
-				sg.Tab("Info", info_layout),
-				sg.Tab("PHQ-9", PHQ9_layout),
-				sg.Tab("GAD-7", GAD7_layout),
-				sg.Tab("Phobia", Phobia_layout),
-				sg.Tab("W&SAS", WSAS_layout),
-				sg.Tab("Notes", notes_layout)
+				sg.Tab("Home", home_layout),
+				sg.Tab("Graphs", graphs_layout)
 			]],
 			key="-TABGROUP-", 
 			enable_events=True)
@@ -40,25 +37,27 @@ def makeQuestionWindow(theme="DarkGrey3", radioType="q"):
 	# window.set_min_size(window.size)
 	return window
 
-def main():
-	window = makeQuestionWindow(radioType="l")
-	startTime = getTime()
+def mainWindow(testing=False):
+	window = makeHomeWindow()
 	while True:
 		event, values = window.read(timeout=100)
-		if event in (None, 'Exit'):
-			logging.info(f"Window EXIT")
+		if event in (None, "-EXIT-", "Exit"):
+			logging.info(f"Main Window EXIT")
 			break
-		elif event == "-SUBMIT-":
-			scores = getQuestionnaireOutput(values)
-			logging.info(f"{scores = }")
-			window.write_event_value("Exit", "") # trigger window close
-		elif event in ["-NEXT1-", "-NEXT2-", "-NEXT3-", "-NEXT4-", "-NEXT5-"]:
+		# TODO change nexts from static to dynamic
+		elif event in ["-NEXT0-","-NEXT1-", "-NEXT2-", "-NEXT3-", "-NEXT4-", "-NEXT5-", "-PREV0-"]:
 			window["-TABGROUP-"].Widget.select(int(event[-2]))
+		elif event == "-QUESTIONNAIRE-":
+			if window["-RADIOTYPEQUICK-"].get():
+				radioType = "q"
+			else:
+				radioType = "l"
+			questionnaireWindow(radioType=radioType, testing=testing)
 	window.close()
 	exit(0)
 
 
 if __name__ == "__main__":
-	testing = True
-	main()
+	testing=True
+	mainWindow(testing=testing)
 	# printScores()

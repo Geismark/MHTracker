@@ -1,4 +1,5 @@
 scores -> get main to export to CSV
+need to find a way to properly format strings to put into csv (formatData())
 
 'Master window'
 select output/read filepath
@@ -6,10 +7,8 @@ select output/read filepath
 Help buttons
 plotlib
 
-
 data validation
 pyTest - unitTests
-loggers (think js) - look at how to implement
 dataclass (layouts) // static vars **************
 """ DOC string """
 
@@ -30,3 +29,4 @@ default sliders and checkboxes to blank?
 
 ADD: implemented new data manipulation, static testing, auto-close on submit, logging, better imports, fixed function in time rather than manipulate module
 ADD: hid questions (still functional with blank questions), added seperate content package within lib, refactored getRadioText, outputMod to be worked on next
+ADD: export questionnaire to CSV, base main window

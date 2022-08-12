@@ -9,7 +9,7 @@ except ImportError:
 from lib.content.formContent import elementContent as ec
 
 
-def getLayouts(fo, radioType="q", testing=False):
+def getQuestionnaireLayouts(fo, radioType="q", testing=False):
 
 	p, g, ph, w = ec.getRadioText(radioType=radioType)
 
@@ -117,3 +117,17 @@ def getLayouts(fo, radioType="q", testing=False):
 					]
 
 	return info_layout, PHQ9_layout, GAD7_layout, Phobia_layout, WSAS_layout, notes_layout
+
+def getMainLayouts():
+	home_layout = [
+					# FUTUREDO change from quick to short radio
+					[sg.Button("Questionnaire", key="-QUESTIONNAIRE-"), sg.checkbox("Use quick inputs?", key="-RADIOTYPEQUICK-")]
+					[sg.VPush()],
+					[sg.Button("Next", key="-NEXT1-"), sg.Button("Btn")]
+					]
+	graphs_layout = [
+					[sg.VPush()],
+					[sg.Button("Previous", key="-PREV0-"), sg.Button("Graphs", key="-GRAPHS-")]
+					]
+
+	return home_layout, graphs_layout
