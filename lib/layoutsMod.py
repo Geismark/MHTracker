@@ -1,12 +1,25 @@
 import logging
 import PySimpleGUI as sg
 
-try:
-	from lib.content.questionnaireActual import FormQuestions as qu
-except ImportError:
-	logging.debug("Couldn't import questionnaireActual")
-	from lib.content.questionnairePublic import FormQuestionsPublic as qu
+# try:
+# 	from lib.content.questionnaireActual import FormQuestions as qu
+# except ImportError:
+# 	logging.debug("Couldn't import questionnaireActual")
+from lib.content.questionnairePublic import FormQuestionsPublic as qu
 from lib.content.formContent import elementContent as ec
+
+def radioList(text, group_id, keyLambda, default_pos):
+    return [sg.Radio(ans, group_id, k=keyLambda(i), default = (i == default_pos)) for i, ans in enumerate(text)]
+
+def generateLayout(questions, answers, group_id, keyLambda, defaults, append_to_end):
+    layout = []
+    for index, question in enumerate(questions):
+        layout.append([sg.Text(question)])
+        layout.append(radioList(answers, group_id + str(index + 1), lambda i: keyLambda(index, i), defaults[index]))
+
+    layout.append([sg.VPush()])
+    layout.append(append_to_end)
+    return layout
 
 
 def getQuestionnaireLayouts(fo, radioType="q", testing=False):
@@ -22,29 +35,8 @@ def getQuestionnaireLayouts(fo, radioType="q", testing=False):
 					[sg.VPush()],
 					[sg.Button("Next", key="-NEXT1-"), sg.Button("Btn")]
 					]
+	PHQ9_layout = generateLayout(qu.PHQ9, p, "PHQ9", lambda i, j: f'-P{i}{j}-', [0, 0, 1, 1, 2, 2, 3, 3, 0], [sg.Button("Next", key="-NEXT2-"), sg.Push(), sg.Button("Help")])
 
-	PHQ9_layout = [
-					[sg.Text(qu.PHQ9[0], font=fo)],
-					[sg.Radio(p[0], "PHQ91", k='-P10-', default=testing),sg.Radio(p[1], "PHQ91", k='-P11-'),sg.Radio(p[2], "PHQ91", k='-P12-'),sg.Radio(p[3], "PHQ91", k='-P13-')],
-					[sg.Text(qu.PHQ9[1], font=fo)],
-					[sg.Radio(p[0], "PHQ92", k='-P20-', default=testing),sg.Radio(p[1], "PHQ92", k='-P21-'),sg.Radio(p[2], "PHQ92", k='-P22-'),sg.Radio(p[3], "PHQ92", k='-P23-')],
-					[sg.Text(qu.PHQ9[2], font=fo)],
-					[sg.Radio(p[0], "PHQ93", k='-P30-'),sg.Radio(p[1], "PHQ93", k='-P31-', default=testing),sg.Radio(p[2], "PHQ93", k='-P32-'),sg.Radio(p[3], "PHQ93", k='-P33-')],
-					[sg.Text(qu.PHQ9[3], font=fo)],
-					[sg.Radio(p[0], "PHQ94", k='-P40-'),sg.Radio(p[1], "PHQ94", k='-P41-', default=testing),sg.Radio(p[2], "PHQ94", k='-P42-'),sg.Radio(p[3], "PHQ94", k='-P43-')],
-					[sg.Text(qu.PHQ9[4], font=fo)],
-					[sg.Radio(p[0], "PHQ95", k='-P50-'),sg.Radio(p[1], "PHQ95", k='-P51-'),sg.Radio(p[2], "PHQ95", k='-P52-', default=testing),sg.Radio(p[3], "PHQ95", k='-P53-')],
-					[sg.Text(qu.PHQ9[5], font=fo)],
-					[sg.Radio(p[0], "PHQ96", k='-P60-'),sg.Radio(p[1], "PHQ96", k='-P61-'),sg.Radio(p[2], "PHQ96", k='-P62-', default=testing),sg.Radio(p[3], "PHQ96", k='-P63-')],
-					[sg.Text(qu.PHQ9[6], font=fo)],
-					[sg.Radio(p[0], "PHQ97", k='-P70-'),sg.Radio(p[1], "PHQ97", k='-P71-'),sg.Radio(p[2], "PHQ97", k='-P72-'),sg.Radio(p[3], "PHQ97", k='-P73-', default=testing)],
-					[sg.Text(qu.PHQ9[7], font=fo)],
-					[sg.Radio(p[0], "PHQ98", k='-P80-'),sg.Radio(p[1], "PHQ98", k='-P81-'),sg.Radio(p[2], "PHQ98", k='-P82-'),sg.Radio(p[3], "PHQ98", k='-P83-', default=testing)],
-					[sg.Text(qu.PHQ9[8], font=fo)],
-					[sg.Radio(p[0], "PHQ99", k='-P90-', default=testing),sg.Radio(p[1], "PHQ99", k='-P91-'),sg.Radio(p[2], "PHQ99", k='-P92-'),sg.Radio(p[3], "PHQ99", k='-P93-')],
-					[sg.VPush()],
-					[sg.Button("Next", key="-NEXT2-"), sg.Push(), sg.Button("Help")]
-					]
 
 	GAD7_layout = [
 					[sg.Text(qu.GAD7[0], font=fo)],
@@ -121,7 +113,7 @@ def getQuestionnaireLayouts(fo, radioType="q", testing=False):
 def getMainLayouts():
 	home_layout = [
 					# FUTUREDO change from quick to short radio
-					[sg.Button("Questionnaire", key="-QUESTIONNAIRE-"), sg.checkbox("Use quick inputs?", key="-RADIOTYPEQUICK-")]
+					[sg.Button("Questionnaire", key="-QUESTIONNAIRE-"), sg.Checkbox("Use quick inputs?", key="-RADIOTYPEQUICK-")],
 					[sg.VPush()],
 					[sg.Button("Next", key="-NEXT1-"), sg.Button("Btn")]
 					]
