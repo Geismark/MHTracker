@@ -16,12 +16,12 @@ version = 0.1
 # https://stackoverflow.com/questions/3220284/how-to-customize-the-time-format-for-python-logging
 # =======================================
 
-# TODO configure default fonts, themes, etc.
+# FUTUREDO configure default fonts, themes, etc.
 def makeHomeWindow(theme="DarkGrey3"):
-	# TODO fonts
 	sg.theme(theme)
 
 	home_layout, graphs_layout = getMainLayouts()
+	# TODO add customisation/interaction to graph
 
 	layout = []
 	layout += [
@@ -48,7 +48,7 @@ def mainWindow(testing=False):
 		if event in [None, "-EXIT-", "Exit"]:
 			logging.info(f"Main Window EXIT")
 			break
-		# TODO change nexts from static to dynamic
+		# FUTUREDO change nexts from static to dynamic (PREVx)
 		elif event in ["-NEXT0-","-NEXT1-", "-NEXT2-", "-NEXT3-", "-NEXT4-", "-NEXT5-", "-PREV0-"]:
 			window["-TABGROUP-"].Widget.select(int(event[-2]))
 		elif event == "-QUESTIONNAIRE-":
@@ -62,6 +62,4 @@ def mainWindow(testing=False):
 
 
 if __name__ == "__main__":
-	testing=True
-	mainWindow(testing=testing)
-	# printScores()
+	mainWindow(testing=True)

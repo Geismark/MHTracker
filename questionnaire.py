@@ -48,17 +48,16 @@ def questionnaireWindow(radioType="l", testing=False):
 	startTime = getTime()
 	while True:
 		event, values = window.read(timeout=100)
-		if event in (None, 'Exit'):
+		if event in (None, "Exit", "QEXIT"):
 			logging.info(f"Questionnaire Window EXIT")
 			break
 		elif event in ["-SUBMIT-", "Btn"]:
 			scores = getQuestionnaireOutput(values)
 			saveDataOutput(scores, startTime)
-			window.write_event_value("Exit", "") # trigger window close
+			window.write_event_value("QEXIT", "") # trigger window close
 		elif event in ["-NEXT0-", "-NEXT1-", "-NEXT2-", "-NEXT3-", "-NEXT4-", "-NEXT5-"]:
 			window["-TABGROUP-"].Widget.select(int(event[-2]))
 	window.close()
-	exit(0)
 
 
 if __name__ == "__main__":
