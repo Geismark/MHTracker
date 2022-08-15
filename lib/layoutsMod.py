@@ -121,11 +121,12 @@ def getQuestionnaireLayouts(fo, radioType="q", testing=False):
 def getMainLayouts():
 	home_layout = [
 					# FUTUREDO change from quick to short radio
-					[sg.Button("Questionnaire", key="-QUESTIONNAIRE-"), sg.checkbox("Use quick inputs?", key="-RADIOTYPEQUICK-")]
+					[sg.Button("Questionnaire", key="-QUESTIONNAIRE-"), sg.Checkbox("Use quick inputs?", key="-RADIOTYPEQUICK-")],
 					[sg.VPush()],
 					[sg.Button("Next", key="-NEXT1-"), sg.Button("Btn")]
 					]
 	graphs_layout = [
+					[sg.Canvas(key="-MAINCANVAS-")],
 					[sg.VPush()],
 					[sg.Button("Previous", key="-PREV0-"), sg.Button("Graphs", key="-GRAPHS-")]
 					]

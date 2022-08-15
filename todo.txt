@@ -30,3 +30,4 @@ default sliders and checkboxes to blank?
 ADD: implemented new data manipulation, static testing, auto-close on submit, logging, better imports, fixed function in time rather than manipulate module
 ADD: hid questions (still functional with blank questions), added seperate content package within lib, refactored getRadioText, outputMod to be worked on next
 ADD: export questionnaire to CSV, base main window
+ADD: Graph plotting in main window

@@ -66,7 +66,7 @@ def formatData(data, startTime):
 	data = [startTime, endTime] + data
 	logging.debug(f"{data = }")
 
-	# better way to do this!
+	# FIXME better way to do this!
 	data[-1] = re.sub("\n", f"{{~n}}", data[-1])
 	data[-1] = re.sub("\t", f"{{~t}}", data[-1])
 	data[-1] = re.sub("\r", f"{{~r}}", data[-1])

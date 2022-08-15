@@ -1,4 +1,5 @@
 import logging
+from pyplot import draw_figure
 from lib.layoutsMod import getMainLayouts
 from questionnaire import questionnaireWindow
 import PySimpleGUI as sg
@@ -10,6 +11,8 @@ logging.basicConfig(
 					format = '[%(levelname)s] [%(asctime)s] - [%(funcName)s]: %(message)s'
 					)
 version = 0.1
+
+# FIXME logging time format
 # https://stackoverflow.com/questions/3220284/how-to-customize-the-time-format-for-python-logging
 # =======================================
 
@@ -39,9 +42,10 @@ def makeHomeWindow(theme="DarkGrey3"):
 
 def mainWindow(testing=False):
 	window = makeHomeWindow()
+	draw_figure(window["-MAINCANVAS-"].TKCanvas)
 	while True:
 		event, values = window.read(timeout=100)
-		if event in (None, "-EXIT-", "Exit"):
+		if event in [None, "-EXIT-", "Exit"]:
 			logging.info(f"Main Window EXIT")
 			break
 		# TODO change nexts from static to dynamic
